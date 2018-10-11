@@ -9,8 +9,17 @@
   <body>
     <div class="container">
       <fieldset>
+        
         <form action="/" method="post">
-          <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required>
+          <!-- <input name="city" type="text" class="ghost-input" placeholder="Enter a City" required> -->
+          <select id="city" name="city">
+            <%
+              var options = provinces.provincias;
+              for (var i = 0; i < options.length; i++){
+            %>
+            <option value="<%= options[i].id %>"> <%= options[i].nombre %> </option>
+            <% } %>
+          </select>
           <input type="submit" class="ghost-button" value="Get Weather">
         </form>
         <% if(weather !== null){ %>

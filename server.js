@@ -1,22 +1,28 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
-var app = express()
+var app = express();
 
 var apiKey = '80c1245dc664673c681da5a0f58cf629';
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
-  res.render('index', {weather: null, error: null});
+  request('https://apis.datos.gob.ar/georef/api/provincias', function (err, resp, data) {
+  var provinces = JSON.parse(data)
+  console.log(provinces)
+  console.log(err)
+  res.render('index', { provinces: provinces, weather: null, error: null });
+  })
 })
 
 app.post('/', function (req, res) {
   var city = req.body.city;
   // var url = `https://api.openweathermap.org/data/2.5/find?q=${city}&units=metric&appid=${apiKey}`
   var url = 'https://api.openweathermap.org/data/2.5/find?q='+city+'&units=metric&appid='+apiKey;
+  
   request(url, function (err, response, data) {
     if(err){
       res.render('index', {weather: null, error: err});
