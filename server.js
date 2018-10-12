@@ -19,9 +19,13 @@ app.get('/', function (req, res) {
 })
 
 app.post('/', function (req, res) {
-  var city = req.body.city;
+  //var city = req.body.city;
   // var url = `https://api.openweathermap.org/data/2.5/find?q=${city}&units=metric&appid=${apiKey}`
-  var url = 'https://api.openweathermap.org/data/2.5/find?q='+city+'&units=metric&appid='+apiKey;
+  // var url = 'https://api.openweathermap.org/data/2.5/find?q='+city+'&units=metric&appid='+apiKey;
+
+  var lat = -32.142933;
+  var lon = -63.801753;
+  var url = 'https://api.openweathermap.org/data/2.5/weather?'+lat+'&'+lon+''+apiKey;
   
   request(url, function (err, response, data) {
     if(err){
@@ -33,9 +37,9 @@ app.post('/', function (req, res) {
       if(weather.cod != 200){
         res.render('index', {weather: null, error: 'Error, please try again'});
       } else {
-        var w = weather.list[0];
-        console.log(w)
-        var weatherText = `It's ${w.main.temp} degrees in ${w.name}!`;
+        //var w = weather.list[0];
+        console.log(weather)
+        var weatherText = `It's ${weather.main.temp} degrees in ${weather.name}!`;
         res.render('index', {weather: weatherText, error: null});
       }
     }
